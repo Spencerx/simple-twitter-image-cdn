@@ -32,9 +32,9 @@ def upload():
 		if data.startswith(MARK):
 			image = data.replace(MARK, "")
 			try:
+				filename = encod(title)
 				url = urlparse(request.url)
 				sharelink = "{s}://{h}/image/{i}".format(s=url.scheme, h=url.netloc, i=filename)
-				filename = encod(title)
 
 				try:
 					data = db.get("imagedata", {"id": filename})
