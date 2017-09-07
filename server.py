@@ -1,3 +1,4 @@
+import time
 import json
 import base64
 import hashlib
@@ -32,7 +33,7 @@ def upload():
 		if data.startswith(MARK):
 			image = data.replace(MARK, "")
 			try:
-				filename = encod(title)
+				filename = encod(str(time.time()))
 				url = urlparse(request.url)
 				sharelink = "{s}://{h}/image/{i}".format(s=url.scheme, h=url.netloc, i=filename)
 

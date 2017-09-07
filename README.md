@@ -27,4 +27,7 @@ create table imagedata
 );
 ```
 
-create table imagedata (id TEXT primary key, title TEXT not null, link TEXT not null);
+Exec:
+```bash
+echo "create table imagedata (id TEXT primary key, title TEXT not null, link TEXT not null);" | sqlite3 data.db
+```
