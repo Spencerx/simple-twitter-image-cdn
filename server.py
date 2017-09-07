@@ -63,7 +63,7 @@ def upload():
 						"success": True,
 						"data": {
 							"title": title,
-							"url": link
+							"url": sharelink
 						}
 					}), 200
 			except Exception as err:
