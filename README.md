@@ -16,3 +16,15 @@ If you want to change that configuration, set the following enviroment variables
 export HOST="127.0.0.1"
 export PORT="5000" 
 ```
+
+## Database Description
+```SQL
+create table imagedata
+(
+	id TEXT primary key,
+	title TEXT not null,
+	link TEXT not null
+);
+```
+
+create table imagedata (id TEXT primary key, title TEXT not null, link TEXT not null);

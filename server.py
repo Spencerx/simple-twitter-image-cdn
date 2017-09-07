@@ -32,26 +32,40 @@ def upload():
 		if data.startswith(MARK):
 			image = data.replace(MARK, "")
 			try:
-				filename = encod(title)
-				path = "{media}/{filename}.png".format(media=MEDIA, filename=filename)
-				with open(path, "wb+") as fd:
-					fd.write(base64.b64decode(image))
-
-				db.add("imagedata", {
-					"id": filename,
-					"title": title,
-					"link": link
-				})
-
 				url = urlparse(request.url)
-				link = "{s}://{h}/image/{i}".format(s=url.scheme, h=url.netloc, i=filename)
-				return json.dumps({
-					"success": True,
-					"data": {
+				sharelink = "{s}://{h}/image/{i}".format(s=url.scheme, h=url.netloc, i=filename)
+				filename = encod(title)
+
+				try:
+					data = db.get("imagedata", {"id": filename})
+					if len({"title", "link"} & set(data.keys())) is len({"title", "link"}):
+						return json.dumps({
+							"success": True,
+							"data": {
+								"title": title,
+								"url": sharelink
+							}
+						}), 200
+					else:
+						return "Internal server error", 500
+				except Exception as e:
+					path = "{media}/{filename}.png".format(media=MEDIA, filename=filename)
+					with open(path, "wb+") as fd:
+						fd.write(base64.b64decode(image))
+
+					db.add("imagedata", {
+						"id": filename,
 						"title": title,
-						"url": link
-					}
-				}), 200
+						"link": link
+					})
+
+					return json.dumps({
+						"success": True,
+						"data": {
+							"title": title,
+							"url": link
+						}
+					}), 200
 			except Exception as err:
 				print(err)
 				return "Internal server error", 500
